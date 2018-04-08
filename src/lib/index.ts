@@ -1,14 +1,13 @@
-import { Message, User, Guild } from 'discord.js'
+import { Message, User } from 'discord.js'
 import axios from 'axios'
 import { Module } from '../'
 import { Logger } from '@natsuki/util'
 import { User as NatsukiUser } from '@natsuki/db'
 
 const { api } = Module.config
-const lastMessageMap: Map<User, number> = new Map<User, number>()
-const timeForExp: number = 60 * 1000
-const  minExpPerMessage: number = 15
-const maxExpPerMessage: number = 25
+const timeForExp = 60 * 1000
+const minExpPerMessage = 15
+const maxExpPerMessage = 25
 const baseRoute = `${api.address}/users`
 
 const getRandomNumber = (min: number, max: number) => {
@@ -24,18 +23,11 @@ export const giveXp = async (user: NatsukiUser, message: Message) => {
     return
   }
 
-  const lastMessage: number = lastMessageMap.get(message.author) || -Infinity
+  const timeDiff: number = Date.now() - user.level.timestamp.getTime()
 
-  if (!lastMessage) {
-    lastMessageMap.set(message.author, Date.now())
+  if (timeDiff < timeForExp) {
     return
   }
-
-  if(Date.now() - lastMessage < timeForExp) {
-    return
-  }
-
-  lastMessageMap.set(message.author, Date.now())
 
   const entry: {xp: number, level: number} = user.level
 
@@ -65,7 +57,7 @@ export const giveXp = async (user: NatsukiUser, message: Message) => {
     // await userController.updateBalance(message.member.id, user.money.balance, user.money.networth).catch(Logger.error)
   }
 
-  const route = `${baseRoute}/${message.author.id}?token=${api.token}`
+  const route = `${baseRoute}/${message.author.id}/level?token=${api.token}`
   const postData = {
     xp: experience,
     level

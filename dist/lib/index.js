@@ -4,7 +4,6 @@ const axios_1 = require("axios");
 const _1 = require("../");
 const util_1 = require("@natsuki/util");
 const { api } = _1.Module.config;
-const lastMessageMap = new Map();
 const timeForExp = 60 * 1000;
 const minExpPerMessage = 15;
 const maxExpPerMessage = 25;
@@ -19,15 +18,10 @@ exports.giveXp = async (user, message) => {
     if (!user.settings.levelsEnabled) {
         return;
     }
-    const lastMessage = lastMessageMap.get(message.author) || -Infinity;
-    if (!lastMessage) {
-        lastMessageMap.set(message.author, Date.now());
+    const timeDiff = Date.now() - user.level.timestamp.getTime();
+    if (timeDiff < timeForExp) {
         return;
     }
-    if (Date.now() - lastMessage < timeForExp) {
-        return;
-    }
-    lastMessageMap.set(message.author, Date.now());
     const entry = user.level;
     let experience = entry.xp;
     let level = entry.level;
@@ -50,7 +44,7 @@ exports.giveXp = async (user, message) => {
         // user.money.netWorth += 50
         // await userController.updateBalance(message.member.id, user.money.balance, user.money.networth).catch(Logger.error)
     }
-    const route = `${baseRoute}/${message.author.id}?token=${api.token}`;
+    const route = `${baseRoute}/${message.author.id}/level?token=${api.token}`;
     const postData = {
         xp: experience,
         level

@@ -26,7 +26,8 @@ exports.onMessage = async (message) => {
             // MessageUtility.createUser(message.author, message).catch(Logger.error)
             return;
         }
-        _2.giveXp(res.data, message).catch(util_1.Logger.error);
+        const user = res.data;
+        _2.giveXp(user, message).catch(util_1.Logger.error);
     })
         .catch((err) => {
         util_1.Logger.error(err);

@@ -31,7 +31,9 @@ export const onMessage = async (message: Message) => {
         return
       }
 
-      giveXp(res.data as NatsukiUser, message).catch(Logger.error)
+      const user = res.data as NatsukiUser
+
+      giveXp(user, message).catch(Logger.error)
     })
     .catch((err: any) => {
       Logger.error(err)
