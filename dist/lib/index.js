@@ -20,8 +20,11 @@ exports.giveXp = async (user, message) => {
         return;
     }
     const lastMessage = lastMessageMap.get(message.author) || -Infinity;
-    if (!lastMessage || Date.now() - lastMessage < timeForExp) {
+    if (!lastMessage) {
         lastMessageMap.set(message.author, Date.now());
+        return;
+    }
+    if (Date.now() - lastMessage < timeForExp) {
         return;
     }
     lastMessageMap.set(message.author, Date.now());
