@@ -1,7 +1,7 @@
 import { Message, TextChannel } from 'discord.js'
 import axios from 'axios'
 import { Module } from '../'
-import { Logger } from '@natsuki/util'
+import { Logger, MessageUtility } from '@natsuki/util'
 import { User as NatsukiUser } from '@natsuki/db'
 import { giveXp } from './'
 
@@ -26,8 +26,7 @@ export const onMessage = async (message: Message) => {
   axios.get(route)
     .then(res => {
       if (!res.data) {
-        // TODO: move createUser function from bot to util repo.
-        // MessageUtility.createUser(message.author, message).catch(Logger.error)
+        MessageUtility.createUser(message.author, message, Module.config).catch(Logger.error)
         return
       }
 

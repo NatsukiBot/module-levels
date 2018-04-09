@@ -1,6 +1,6 @@
 {
   "name": "@natsuki/module-levels",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Leveling system module.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@natsuki/db": "github:NatsukiBot/db",
-    "@natsuki/util": "github:natsukibot/util",
+    "@natsuki/util": "github:NatsukiBot/util",
     "axios": "^0.18.0",
     "discord.js": "github:discordjs/discord.js#master",
     "discord.js-commando": "github:discordjs/Commando#master"

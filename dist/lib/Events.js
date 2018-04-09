@@ -22,8 +22,7 @@ exports.onMessage = async (message) => {
     axios_1.default.get(route)
         .then(res => {
         if (!res.data) {
-            // TODO: move createUser function from bot to util repo.
-            // MessageUtility.createUser(message.author, message).catch(Logger.error)
+            util_1.MessageUtility.createUser(message.author, message, _1.Module.config).catch(util_1.Logger.error);
             return;
         }
         const user = res.data;
