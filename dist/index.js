@@ -20,5 +20,6 @@ class Module {
         client.on('message', message => Events_1.onMessage(message, config));
     }
 }
+Module.moduleName = 'Levels';
 exports.Module = Module;
 //# sourceMappingURL=index.js.map

@@ -6,6 +6,7 @@ import { onMessage } from './lib/Events'
 export class Module {
   static config: Config
   static client: CommandoClient
+  static moduleName = 'Levels'
 
   /**
    * Initializes module
