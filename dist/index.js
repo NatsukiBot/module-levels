@@ -17,7 +17,7 @@ class Module {
      * @param client
      */
     async registerListeners(client, config) {
-        client.on('message', async (message) => await Events_1.onMessage(message, config));
+        client.on('message', message => Events_1.onMessage(message, config));
     }
 }
 exports.Module = Module;

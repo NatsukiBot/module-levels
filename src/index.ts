@@ -23,6 +23,6 @@ export class Module {
    * @param client
    */
   private async registerListeners (client: CommandoClient, config: Config): Promise<void> {
-    client.on('message', async (message) => await onMessage(message, config))
+    client.on('message', message => onMessage(message, config))
   }
 }

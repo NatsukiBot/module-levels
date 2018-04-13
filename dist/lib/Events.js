@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = require("discord.js");
 const axios_1 = require("axios");
 const _1 = require("../");
 const util_1 = require("@natsuki/util");
 const _2 = require("./");
 exports.onMessage = async (message, config) => {
-    if (message.author.bot || !message.content || !message.content.trim()
-        || typeof message.channel !== typeof discord_js_1.TextChannel) {
+    if (message.author.bot || !message.content ||
+        !message.content.trim() || message.channel.type !== 'text') {
         return;
     }
     const { api } = _1.Module.config;

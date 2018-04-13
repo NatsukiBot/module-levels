@@ -6,8 +6,8 @@ import { User as NatsukiUser } from '@natsuki/db'
 import { giveXp } from './'
 
 export const onMessage = async (message: Message, config: Config) => {
-  if (message.author.bot || !message.content || !message.content.trim()
-    || typeof message.channel !== typeof TextChannel) {
+  if (message.author.bot || !message.content ||
+    !message.content.trim() || message.channel.type !== 'text') {
     return
   }
 
