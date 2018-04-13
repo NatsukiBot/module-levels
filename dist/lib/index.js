@@ -3,11 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
 const _1 = require("../");
 const util_1 = require("@natsuki/util");
-const { api } = _1.Module.config;
 const timeForExp = 60 * 1000;
 const minExpPerMessage = 15;
 const maxExpPerMessage = 25;
-const baseRoute = `${api.address}/users`;
 const getRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -18,6 +16,8 @@ exports.giveXp = async (user, message) => {
     if (!user.settings.levelsEnabled) {
         return;
     }
+    const { api } = _1.Module.config;
+    const baseRoute = `${api.address}/users`;
     const timeDiff = Date.now() - user.level.timestamp.getTime();
     if (timeDiff < timeForExp) {
         return;
@@ -40,6 +40,7 @@ exports.giveXp = async (user, message) => {
         const dollarEmoji = '💵';
         const rewardAmount = getRandomNumber(45, 55) + level * 1.25;
         message.channel.send(`**${popcornEmoji} | ${message.member.displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`);
+        // TODO: Uncomment when API supports User Balance.
         // user.money.balance += 50
         // user.money.netWorth += 50
         // await userController.updateBalance(message.member.id, user.money.balance, user.money.networth).catch(Logger.error)

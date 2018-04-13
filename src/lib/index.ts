@@ -4,11 +4,9 @@ import { Module } from '../'
 import { Logger } from '@natsuki/util'
 import { User as NatsukiUser } from '@natsuki/db'
 
-const { api } = Module.config
 const timeForExp = 60 * 1000
 const minExpPerMessage = 15
 const maxExpPerMessage = 25
-const baseRoute = `${api.address}/users`
 
 const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -22,6 +20,9 @@ export const giveXp = async (user: NatsukiUser, message: Message) => {
   if (!user.settings.levelsEnabled) {
     return
   }
+
+  const { api } = Module.config
+  const baseRoute = `${api.address}/users`
 
   const timeDiff: number = Date.now() - user.level.timestamp.getTime()
 
@@ -52,6 +53,7 @@ export const giveXp = async (user: NatsukiUser, message: Message) => {
     const rewardAmount = getRandomNumber(45, 55) + level * 1.25
     message.channel.send(`**${popcornEmoji} | ${message.member.displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`)
 
+    // TODO: Uncomment when API supports User Balance.
     // user.money.balance += 50
     // user.money.netWorth += 50
     // await userController.updateBalance(message.member.id, user.money.balance, user.money.networth).catch(Logger.error)
