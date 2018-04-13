@@ -24,7 +24,7 @@ export const giveXp = async (user: NatsukiUser, message: Message) => {
   const { api } = Module.config
   const baseRoute = `${api.address}/users`
 
-  const timeDiff: number = Date.now() - user.level.timestamp.getTime()
+  const timeDiff: number = Date.now() - new Date(user.level.timestamp).getTime()
 
   if (timeDiff < timeForExp) {
     return
