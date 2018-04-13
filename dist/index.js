@@ -10,14 +10,14 @@ class Module {
     async init(client, config) {
         Module.client = client;
         Module.config = config;
-        await this.registerListeners(client);
+        await this.registerListeners(client, config);
     }
     /**
      * Register events
      * @param client
      */
-    async registerListeners(client) {
-        client.on('message', await Events_1.onMessage);
+    async registerListeners(client, config) {
+        client.on('message', async (message) => await Events_1.onMessage(message, config));
     }
 }
 exports.Module = Module;

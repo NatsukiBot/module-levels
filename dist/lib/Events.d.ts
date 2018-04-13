@@ -1,2 +1,3 @@
 import { Message } from 'discord.js';
-export declare const onMessage: (message: Message) => Promise<void>;
+import { Config } from '@natsuki/util';
+export declare const onMessage: (message: Message, config: Config) => Promise<void>;

@@ -1,18 +1,18 @@
 import { Message, TextChannel } from 'discord.js'
 import axios from 'axios'
 import { Module } from '../'
-import { Logger, MessageUtility } from '@natsuki/util'
+import { Logger, MessageUtility, Config } from '@natsuki/util'
 import { User as NatsukiUser } from '@natsuki/db'
 import { giveXp } from './'
 
-const { api } = Module.config
-const baseRoute = `${api.address}/users`
-
-export const onMessage = async (message: Message) => {
+export const onMessage = async (message: Message, config: Config) => {
   if (message.author.bot || !message.content || !message.content.trim()
     || typeof message.channel !== typeof TextChannel) {
     return
   }
+
+  const { api } = Module.config
+  const baseRoute = `${api.address}/users`
 
   // Prevent the user from earning xp for bot commands.
   // Handles *most* bots.

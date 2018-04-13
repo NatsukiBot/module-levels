@@ -5,13 +5,13 @@ const axios_1 = require("axios");
 const _1 = require("../");
 const util_1 = require("@natsuki/util");
 const _2 = require("./");
-const { api } = _1.Module.config;
-const baseRoute = `${api.address}/users`;
-exports.onMessage = async (message) => {
+exports.onMessage = async (message, config) => {
     if (message.author.bot || !message.content || !message.content.trim()
         || typeof message.channel !== typeof discord_js_1.TextChannel) {
         return;
     }
+    const { api } = _1.Module.config;
+    const baseRoute = `${api.address}/users`;
     // Prevent the user from earning xp for bot commands.
     // Handles *most* bots.
     const firstTwoMatch = message.content.trim().substring(0, 2).match(/[a-z]/ig);

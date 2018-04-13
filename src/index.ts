@@ -4,8 +4,8 @@ import { Config } from '@natsuki/util'
 import { onMessage } from './lib/Events'
 
 export class Module {
-  public static client: CommandoClient
-  public static config: Config
+  static config: Config
+  static client: CommandoClient
 
   /**
    * Initializes module
@@ -15,14 +15,14 @@ export class Module {
   public async init (client: CommandoClient, config: Config) {
     Module.client = client
     Module.config = config
-    await this.registerListeners(client)
+    await this.registerListeners(client, config)
   }
 
   /**
    * Register events
    * @param client
    */
-  private async registerListeners (client: CommandoClient): Promise<void> {
-    client.on('message', await onMessage)
+  private async registerListeners (client: CommandoClient, config: Config): Promise<void> {
+    client.on('message', async (message) => await onMessage(message, config))
   }
 }
