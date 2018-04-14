@@ -52,11 +52,11 @@ export const giveXp = async (user: NatsukiUser, message: Message) => {
   if (leveledup) {
     const popcornEmoji = '🍿'
     const dollarEmoji = '💵'
-    const rewardAmount = getRandomNumber(45, 55) + level * 1.25
+    const rewardAmount = getRandomNumber(45, 50) + Math.floor(level * 0.25)
     message.channel.send(`**${popcornEmoji} | ${message.member.displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`)
 
-    user.balance.balance += 50
-    user.balance.netWorth += 50
+    user.balance.balance += rewardAmount
+    user.balance.netWorth += rewardAmount
 
     const postData = {
       level: {
