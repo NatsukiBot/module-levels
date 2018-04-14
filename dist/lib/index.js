@@ -35,20 +35,33 @@ exports.giveXp = async (user, message) => {
         level++;
         leveledup = true;
     }
+    const route = `${baseRoute}/${message.author.id}/level?token=${api.token}`;
     if (leveledup) {
         const popcornEmoji = '🍿';
         const dollarEmoji = '💵';
         const rewardAmount = getRandomNumber(45, 55) + level * 1.25;
         message.channel.send(`**${popcornEmoji} | ${message.member.displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`);
-        // TODO: Uncomment when API supports User Balance.
-        // user.money.balance += 50
-        // user.money.netWorth += 50
-        // await userController.updateBalance(message.member.id, user.money.balance, user.money.networth).catch(Logger.error)
+        user.balance.balance += 50;
+        user.balance.netWorth += 50;
+        const postData = {
+            level: {
+                xp: experience,
+                level
+            },
+            balance: {
+                balance: user.balance.balance,
+                netWorth: user.balance.netWorth,
+                dateLastClaimedDailies: user.balance.dateLastClaimedDailies
+            }
+        };
+        axios_1.default.put(route, postData).catch(util_1.Logger.error);
+        return;
     }
-    const route = `${baseRoute}/${message.author.id}/level?token=${api.token}`;
     const postData = {
-        xp: experience,
-        level
+        level: {
+            xp: experience,
+            level
+        }
     };
     axios_1.default.put(route, postData).catch(util_1.Logger.error);
 };
