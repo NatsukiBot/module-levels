@@ -20,6 +20,7 @@ class Module {
         client.on('message', message => Events_1.onMessage(message, config));
     }
 }
-Module.moduleName = 'Levels';
+Module.id = 'Levels';
+Module.description = 'A leveling system that awards XP when users send messages. Also rewards credits when a user levels up.';
 exports.Module = Module;
 //# sourceMappingURL=index.js.map

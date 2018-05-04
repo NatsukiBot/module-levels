@@ -6,7 +6,8 @@ import { onMessage } from './lib/Events'
 export class Module {
   static config: Config
   static client: CommandoClient
-  static moduleName = 'Levels'
+  static id = 'Levels'
+  static description = 'A leveling system that awards XP when users send messages. Also rewards credits when a user levels up.'
 
   /**
    * Initializes module

@@ -3,7 +3,8 @@ import { Config } from '@natsuki/util';
 export declare class Module {
     static config: Config;
     static client: CommandoClient;
-    static moduleName: string;
+    static id: string;
+    static description: string;
     /**
      * Initializes module
      * @param client
