@@ -21,7 +21,7 @@ exports.onMessage = async (message, config) => {
     axios_1.default.get(route)
         .then(res => {
         if (!res.data) {
-            util_1.MessageUtility.createUser(message.author, message, _1.Module.config).catch(util_1.Logger.error);
+            util_1.MessageUtility.createUser(message.author, _1.Module.config).catch(util_1.Logger.error);
             return;
         }
         const user = res.data;
