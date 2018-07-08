@@ -1,65 +1,65 @@
-import { Message, User } from 'discord.js';
-import axios from 'axios';
-import { Module } from '../';
-import { Logger } from '@nightwatch/util';
-import { User as NightwatchUser } from '@nightwatch/db';
+import { Message, User } from 'discord.js'
+import axios from 'axios'
+import { Plugin } from '../'
+import { Logger } from '@nightwatch/util'
+import { User as NightwatchUser } from '@nightwatch/db'
 
-const timeForExp = 60 * 1000;
-const minExpPerMessage = 15;
-const maxExpPerMessage = 25;
+const timeForExp = 60 * 1000
+const minExpPerMessage = 15
+const maxExpPerMessage = 25
 
 const getRandomNumber = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 
 const getXpForLevel = (level: number) => {
-  return 5 * level * level + 50 * level + 100;
-};
+  return 5 * level * level + 50 * level + 100
+}
 
 export const giveXp = async (user: NightwatchUser, message: Message) => {
   if (!user.settings.levelsEnabled) {
-    return;
+    return
   }
 
-  const { api } = Module.config;
-  const baseRoute = `${api.address}/users`;
+  const { api } = Plugin.config
+  const baseRoute = `${api.address}/users`
 
-  const timeDiff: number = Date.now() - new Date(user.level.timestamp).getTime();
+  const timeDiff: number = Date.now() - new Date(user.level.timestamp).getTime()
 
   if (timeDiff < timeForExp) {
-    return;
+    return
   }
 
-  const entry: { xp: number; level: number } = user.level;
+  const entry: { xp: number; level: number } = user.level
 
-  let experience: number = entry.xp;
-  let level: number = entry.level;
-  let experienceNext: number = getXpForLevel(level);
-  let leveledup: boolean = false;
-  const expGain: number = getRandomNumber(maxExpPerMessage, minExpPerMessage);
+  let experience: number = entry.xp
+  let level: number = entry.level
+  let experienceNext: number = getXpForLevel(level)
+  let leveledup: boolean = false
+  const expGain: number = getRandomNumber(maxExpPerMessage, minExpPerMessage)
 
-  experience += expGain;
+  experience += expGain
 
   while (experience >= experienceNext) {
-    experience -= experienceNext;
-    experienceNext = getXpForLevel(level);
-    level++;
-    leveledup = true;
+    experience -= experienceNext
+    experienceNext = getXpForLevel(level)
+    level++
+    leveledup = true
   }
 
-  const route = `${baseRoute}/${message.author.id}/level?token=${api.token}`;
+  const route = `${baseRoute}/${message.author.id}/level?token=${api.token}`
 
   if (leveledup) {
-    const popcornEmoji = '🍿';
-    const dollarEmoji = '💵';
-    const rewardAmount = getRandomNumber(45, 50) + Math.floor(level * 0.5);
+    const popcornEmoji = '🍿'
+    const dollarEmoji = '💵'
+    const rewardAmount = getRandomNumber(45, 50) + Math.floor(level * 0.5)
     message.channel.send(
       `**${popcornEmoji} | ${message.member
         .displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`
-    );
+    )
 
-    user.balance.balance += rewardAmount;
-    user.balance.netWorth += rewardAmount;
+    user.balance.balance += rewardAmount
+    user.balance.netWorth += rewardAmount
 
     const postData = {
       level: {
@@ -71,10 +71,10 @@ export const giveXp = async (user: NightwatchUser, message: Message) => {
         netWorth: user.balance.netWorth,
         dateLastClaimedDailies: user.balance.dateLastClaimedDailies
       }
-    };
+    }
 
-    axios.put(route, postData).catch(Logger.error);
-    return;
+    axios.put(route, postData).catch(Logger.error)
+    return
   }
 
   const postData = {
@@ -82,7 +82,7 @@ export const giveXp = async (user: NightwatchUser, message: Message) => {
       xp: experience,
       level
     }
-  };
+  }
 
-  axios.put(route, postData).catch(Logger.error);
-};
+  axios.put(route, postData).catch(Logger.error)
+}

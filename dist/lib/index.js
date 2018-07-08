@@ -16,7 +16,7 @@ exports.giveXp = async (user, message) => {
     if (!user.settings.levelsEnabled) {
         return;
     }
-    const { api } = _1.Module.config;
+    const { api } = _1.Plugin.config;
     const baseRoute = `${api.address}/users`;
     const timeDiff = Date.now() - new Date(user.level.timestamp).getTime();
     if (timeDiff < timeForExp) {

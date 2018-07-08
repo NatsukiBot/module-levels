@@ -1,5 +1,5 @@
 # Levels
- > Leveling system module.
+ > Leveling system plugin.
 
 ## Features
   * Gives a random amount of XP per message after an amount of time.
@@ -10,4 +10,4 @@
 N/A
 
 ## Installation
-All modules should be installed in the `modules/` directory of the bot. Modules are automatically loaded and registered when the bot starts.
+All plugins should be installed in the `plugins/` directory of the bot. Plugins are automatically loaded and registered when the bot starts.

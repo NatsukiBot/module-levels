@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NightwatchBot/module-levels.git"
+    "url": "git+https://github.com/NightwatchBot/plugin-levels.git"
   },
   "author": "Tanner Goins",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/NightwatchBot/module-levels/issues"
+    "url": "https://github.com/NightwatchBot/plugin-levels/issues"
   },
-  "homepage": "https://github.com/NightwatchBot/module-levels#readme",
+  "homepage": "https://github.com/NightwatchBot/plugin-levels#readme",
   "devDependencies": {
     "@types/node": "^9.6.1",
     "@types/winston": "^2.3.9",

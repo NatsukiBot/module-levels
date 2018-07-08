@@ -8,7 +8,7 @@ exports.onMessage = async (message, config) => {
     if (message.author.bot || !message.content || !message.content.trim() || message.channel.type !== 'text') {
         return;
     }
-    const { api } = _1.Module.config;
+    const { api } = _1.Plugin.config;
     const baseRoute = `${api.address}/users`;
     // prevent the user from earning xp for bot commands.
     // handles *most* bots.
@@ -19,9 +19,9 @@ exports.onMessage = async (message, config) => {
     const route = `${baseRoute}/${message.author.id}?token=${api.token}`;
     axios_1.default
         .get(route)
-        .then((res) => {
+        .then(res => {
         if (!res.data) {
-            util_1.MessageUtility.createUser(message.author, _1.Module.config).catch(util_1.Logger.error);
+            util_1.MessageUtility.createUser(message.author, _1.Plugin.config).catch(util_1.Logger.error);
             return;
         }
         const user = res.data;
