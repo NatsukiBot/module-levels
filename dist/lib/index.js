@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
 const _1 = require("../");
-const util_1 = require("@natsuki/util");
+const util_1 = require("@nightwatch/util");
 const timeForExp = 60 * 1000;
 const minExpPerMessage = 15;
 const maxExpPerMessage = 25;
@@ -40,7 +40,8 @@ exports.giveXp = async (user, message) => {
         const popcornEmoji = '🍿';
         const dollarEmoji = '💵';
         const rewardAmount = getRandomNumber(45, 50) + Math.floor(level * 0.5);
-        message.channel.send(`**${popcornEmoji} | ${message.member.displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`);
+        message.channel.send(`**${popcornEmoji} | ${message.member
+            .displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`);
         user.balance.balance += rewardAmount;
         user.balance.netWorth += rewardAmount;
         const postData = {

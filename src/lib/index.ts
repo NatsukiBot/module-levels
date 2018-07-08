@@ -1,8 +1,8 @@
 import { Message, User } from 'discord.js';
 import axios from 'axios';
 import { Module } from '../';
-import { Logger } from '@natsuki/util';
-import { User as NatsukiUser } from '@natsuki/db';
+import { Logger } from '@nightwatch/util';
+import { User as NightwatchUser } from '@nightwatch/db';
 
 const timeForExp = 60 * 1000;
 const minExpPerMessage = 15;
@@ -16,7 +16,7 @@ const getXpForLevel = (level: number) => {
   return 5 * level * level + 50 * level + 100;
 };
 
-export const giveXp = async (user: NatsukiUser, message: Message) => {
+export const giveXp = async (user: NightwatchUser, message: Message) => {
   if (!user.settings.levelsEnabled) {
     return;
   }
@@ -24,8 +24,7 @@ export const giveXp = async (user: NatsukiUser, message: Message) => {
   const { api } = Module.config;
   const baseRoute = `${api.address}/users`;
 
-  const timeDiff: number =
-    Date.now() - new Date(user.level.timestamp).getTime();
+  const timeDiff: number = Date.now() - new Date(user.level.timestamp).getTime();
 
   if (timeDiff < timeForExp) {
     return;
@@ -55,9 +54,8 @@ export const giveXp = async (user: NatsukiUser, message: Message) => {
     const dollarEmoji = '💵';
     const rewardAmount = getRandomNumber(45, 50) + Math.floor(level * 0.5);
     message.channel.send(
-      `**${popcornEmoji} | ${
-        message.member.displayName
-      } just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`
+      `**${popcornEmoji} | ${message.member
+        .displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`
     );
 
     user.balance.balance += rewardAmount;

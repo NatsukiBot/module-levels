@@ -1,29 +1,21 @@
 import { Message, TextChannel } from 'discord.js';
 import axios from 'axios';
 import { Module } from '../';
-import { Logger, MessageUtility, Config } from '@natsuki/util';
-import { User as NatsukiUser } from '@natsuki/db';
+import { Logger, MessageUtility, Config } from '@nightwatch/util';
+import { User as NightwatchUser } from '@nightwatch/db';
 import { giveXp } from './';
 
 export const onMessage = async (message: Message, config: Config) => {
-  if (
-    message.author.bot ||
-    !message.content ||
-    !message.content.trim() ||
-    message.channel.type !== 'text'
-  ) {
+  if (message.author.bot || !message.content || !message.content.trim() || message.channel.type !== 'text') {
     return;
   }
 
   const { api } = Module.config;
   const baseRoute = `${api.address}/users`;
 
-  // Prevent the user from earning xp for bot commands.
-  // Handles *most* bots.
-  const firstTwoMatch = message.content
-    .trim()
-    .substring(0, 2)
-    .match(/[a-z]/gi);
+  // prevent the user from earning xp for bot commands.
+  // handles *most* bots.
+  const firstTwoMatch = message.content.trim().substring(0, 2).match(/[a-z]/gi);
   if (!firstTwoMatch || firstTwoMatch.length !== 2) {
     return;
   }
@@ -34,13 +26,11 @@ export const onMessage = async (message: Message, config: Config) => {
     .get(route)
     .then((res) => {
       if (!res.data) {
-        MessageUtility.createUser(message.author, Module.config).catch(
-          Logger.error
-        );
+        MessageUtility.createUser(message.author, Module.config).catch(Logger.error);
         return;
       }
 
-      const user = res.data as NatsukiUser;
+      const user = res.data as NightwatchUser;
 
       giveXp(user, message).catch(Logger.error);
     })

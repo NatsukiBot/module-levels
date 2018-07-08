@@ -1,5 +1,5 @@
 import { CommandoClient } from 'discord.js-commando';
-import { Config } from '@natsuki/util';
+import { Config } from '@nightwatch/util';
 export declare class Module {
     static config: Config;
     static client: CommandoClient;
