@@ -1,13 +1,12 @@
-import { Message } from 'discord.js'
 import { CommandoClient } from 'discord.js-commando'
 import { Config } from '@nightwatch/util'
 import { onMessage } from './lib/Events'
 
 export class Plugin {
-  static config: Config
-  static client: CommandoClient
-  static id = 'Levels'
-  static description = 'A leveling system that awards XP when users send messages. Also rewards credits when a user levels up.'
+  public static config: Config
+  public static client: CommandoClient
+  public static id = 'Levels'
+  public static description = 'A leveling system that awards XP when users send messages. Also rewards credits when a user levels up.'
 
   /**
    * Initializes plugin
