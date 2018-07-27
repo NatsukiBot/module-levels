@@ -1,4 +1,4 @@
-import { Message, User } from 'discord.js'
+import { Message } from 'discord.js'
 import axios from 'axios'
 import { Plugin } from '../'
 import { Logger } from '@nightwatch/util'
@@ -53,6 +53,7 @@ export const giveXp = async (user: NightwatchUser, message: Message) => {
     const popcornEmoji = '🍿'
     const dollarEmoji = '💵'
     const rewardAmount = getRandomNumber(45, 50) + Math.floor(level * 0.5)
+
     message.channel.send(
       `**${popcornEmoji} | ${message.member
         .displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`

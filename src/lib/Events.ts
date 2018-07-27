@@ -1,4 +1,4 @@
-import { Message, TextChannel } from 'discord.js'
+import { Message } from 'discord.js'
 import axios from 'axios'
 import { Plugin } from '../'
 import { Logger, MessageUtility, Config } from '@nightwatch/util'
@@ -21,20 +21,12 @@ export const onMessage = async (message: Message, config: Config) => {
   }
 
   const route = `${baseRoute}/${message.author.id}?token=${api.token}`
+  const { data: user }: { data: NightwatchUser } = await axios.get(route)
 
-  axios
-    .get(route)
-    .then(res => {
-      if (!res.data) {
-        MessageUtility.createUser(message.author, Plugin.config).catch(Logger.error)
-        return
-      }
+  if (!user) {
+    MessageUtility.createUser(message.author, Plugin.config).catch(Logger.error)
+    return
+  }
 
-      const user = res.data as NightwatchUser
-
-      giveXp(user, message).catch(Logger.error)
-    })
-    .catch((err: any) => {
-      Logger.error(err)
-    })
+  giveXp(user, message).catch(Logger.error)
 }
