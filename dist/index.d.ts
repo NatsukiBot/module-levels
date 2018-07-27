@@ -15,5 +15,5 @@ export declare class Plugin {
      * Register events
      * @param client
      */
-    private registerListeners(client, config);
+    private registerListeners;
 }

@@ -54,13 +54,22 @@ export const giveXp = async (user: NightwatchUser, message: Message) => {
     const dollarEmoji = '💵'
     const rewardAmount = getRandomNumber(45, 50) + Math.floor(level * 0.5)
 
+    let levelBonus = 0
+    if (level % 100 === 0) {
+      levelBonus = 1000
+    } else if (level % 10 === 0) {
+      levelBonus = 100
+    }
+
+    const levelBonusString = levelBonus > 0 ? `\n\n**Level Bonus! +${levelBonus} credits**` : ''
+
     message.channel.send(
       `**${popcornEmoji} | ${message.member
-        .displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**`
+        .displayName} just advanced to level ${level} and earned ${dollarEmoji} ${rewardAmount} credits!**${levelBonusString}`
     )
 
-    user.balance.balance += rewardAmount
-    user.balance.netWorth += rewardAmount
+    user.balance.balance += rewardAmount + levelBonus
+    user.balance.netWorth += rewardAmount + levelBonus
 
     const postData = {
       level: {

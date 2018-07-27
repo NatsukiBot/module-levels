@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
-const _1 = require("../");
+const __1 = require("../");
 const util_1 = require("@nightwatch/util");
-const _2 = require("./");
+const _1 = require("./");
 exports.onMessage = async (message, config) => {
     if (message.author.bot || !message.content || !message.content.trim() || message.channel.type !== 'text') {
         return;
     }
-    const { api } = _1.Plugin.config;
+    const { api } = __1.Plugin.config;
     const baseRoute = `${api.address}/users`;
     // prevent the user from earning xp for bot commands.
     // handles *most* bots.
@@ -17,18 +17,11 @@ exports.onMessage = async (message, config) => {
         return;
     }
     const route = `${baseRoute}/${message.author.id}?token=${api.token}`;
-    axios_1.default
-        .get(route)
-        .then(res => {
-        if (!res.data) {
-            util_1.MessageUtility.createUser(message.author, _1.Plugin.config).catch(util_1.Logger.error);
-            return;
-        }
-        const user = res.data;
-        _2.giveXp(user, message).catch(util_1.Logger.error);
-    })
-        .catch((err) => {
-        util_1.Logger.error(err);
-    });
+    const { data: user } = await axios_1.default.get(route);
+    if (!user) {
+        util_1.MessageUtility.createUser(message.author, __1.Plugin.config).catch(util_1.Logger.error);
+        return;
+    }
+    _1.giveXp(user, message).catch(util_1.Logger.error);
 };
 //# sourceMappingURL=Events.js.map
